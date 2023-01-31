@@ -83,16 +83,21 @@ function updateStaff() {
     let chucvu = getElement('#chucvu').value;
     let gioLam = getElement('#gioLam').value;
 
+    // kiểm tra validateUpdate của input
+    let isValid = validateUpdate();
+    if(!isValid) return;
+    
     // khởi tạo Object Staff
     const staff = new Staff(tknv,name, email,password,datepicker,luongCB,chucvu,gioLam);
-
+    
     // update info NV cần chỉnh vào bảng
     let index = staffList.findIndex((staff) => {
         return staff.tknv === tknv
     });
-
+    
     staffList[index] = staff;
-
+    
+    console.log(staffList);
     renderTable(staffList);
 
     resetForm();
