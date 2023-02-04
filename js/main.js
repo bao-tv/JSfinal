@@ -85,7 +85,9 @@ function updateStaff() {
 
     // kiểm tra validateUpdate của input
     let isValid = validateUpdate();
+
     if(!isValid) return;
+
     
     // khởi tạo Object Staff
     const staff = new Staff(tknv,name, email,password,datepicker,luongCB,chucvu,gioLam);
@@ -97,7 +99,7 @@ function updateStaff() {
     
     staffList[index] = staff;
     
-    console.log(staffList);
+    // console.log(staffList);
     renderTable(staffList);
 
     resetForm();
@@ -156,3 +158,4 @@ function getElement(selector) {
     return document.querySelector(selector);
   }
 
+  

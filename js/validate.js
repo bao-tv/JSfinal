@@ -48,89 +48,83 @@ function checkExist(idField) {
     return isValid;
 }
 
-
 function validate () {
-    let isValid = false;
-
+    let isValid = true;
     // check TKNV, ko để trống, 4-6 ký số, ko có ký tự đặc biệt, ko có dấu, ko trùng nếu đã có
     let tknvNotEmpty = checkInputNotEmpty('#tknv');
     let tkexist = checkExist ('#tknv');
     if(!tknvNotEmpty) {
-        isValidTKNV = false;
+        isValid = false;
         getElement('#tbTKNV').style.display = 'block';
         getElement('#tbTKNV').innerHTML = arrNotif[0];
     } else {
         let arrcharater = /^[A-Za-z0-9]+$/;
         let valueTKNV = getElement('#tknv').value;
         if(!valueTKNV.match(arrcharater)|| valueTKNV.length<4 || valueTKNV.length>6) {
-            isValidTKNV = false;
+            isValid = false;
             getElement('#tbTKNV').style.display = 'block';
             getElement('#tbTKNV').innerHTML = arrNotif[1];
         }else if(tkexist) {
-            isValidTKNV = false;
+            isValid = false;
             getElement('#tbTKNV').style.display = 'block';
             getElement('#tbTKNV').innerHTML = arrNotif[2];
         } else {
             getElement('#tbTKNV').style.display = 'none';
-            isValidTKNV = true;
         }
     }
 
     // check tên NV phải là chữ và ko để trống
     let nameNotEmpty = checkInputNotEmpty('#name');
     if(!nameNotEmpty) {
-        isValidName = false;
+        isValid = false;
         getElement('#tbTen').style.display = 'block';
         getElement('#tbTen').innerHTML = arrNotif[3];
     } else {
         let arrcharater = /^[A-Za-z ._ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/;
         let valueName = getElement('#name').value;
         if(!valueName.match(arrcharater)) {
-            isValidName = false;
+            isValid = false;
             getElement('#tbTen').style.display = 'block';
             getElement('#tbTen').innerHTML = arrNotif[4];
         } else {
             getElement('#tbTen').style.display = 'none';
-            isValidName = true;
         }
     }
 
     // check email NV
     let emailNotEmpty = checkInputNotEmpty('#email');
     if(!emailNotEmpty) {
-        isValidEmail = false;
+        isValid = false;
         getElement('#tbEmail').style.display = 'block';
         getElement('#tbEmail').innerHTML = arrNotif[5];
     } else {
         let arrcharater = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         let valueEmail = getElement('#email').value;
         if(!valueEmail.match(arrcharater)) {
-            isValidEmail = false;
+            isValid = false;
             getElement('#tbEmail').style.display = 'block';
             getElement('#tbEmail').innerHTML = arrNotif[6];
         } else {
             getElement('#tbEmail').style.display = 'none';
-            isValidEmail = true;
         }
     }
 
     // check password 6-10 ký tự (1 số, 1 in hoa, 1 đặc biệt), ko để trống
     let passNotEmpty = checkInputNotEmpty('#password');
     if(!passNotEmpty) {
-        isValidPass = false;
+        isValid = false;
         getElement('#tbMatKhau').style.display = 'block';
         getElement('#tbMatKhau').innerHTML = arrNotif[7];
     } else {
         let valuePass = getElement('#password').value;
         if(valuePass.match(valuePass.length<6 || valuePass.length>10)) {
-            isValidPass = false;
+            isValid = false;
             getElement('#tbMatKhau').style.display = 'block';
             getElement('#tbMatKhau').innerHTML = arrNotif[8];
         }else if(/\d/.test(valuePass) && /[A-Z]/.test(valuePass) && /[^0-9a-zA-Z]/.test(valuePass)) {
             getElement('#tbMatKhau').style.display = 'none';
-            isValidPass = true;
         } else {
-            isValidPass = false;
+            isValid = false;
             getElement('#tbMatKhau').style.display = 'block';
             getElement('#tbMatKhau').innerHTML = arrNotif[9];
         }
@@ -139,7 +133,7 @@ function validate () {
     // check ngày làm ko để trống và định dạng mm/dd/yyyy
     let datepickerNotEmpty = checkInputNotEmpty('#datepicker');
     if(!datepickerNotEmpty) {
-        isValidDate = false;
+        isValid = false;
         getElement('#tbNgay').style.display = 'block';
         getElement('#tbNgay').innerHTML = arrNotif[10];
     } else {
@@ -148,7 +142,7 @@ function validate () {
         let dtArray = valuedate.match(rxDatePattern); // is format OK?
 
         if (dtArray == null) {
-            isValidDate = false;
+            isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
         }
@@ -159,17 +153,17 @@ function validate () {
         dtYear = dtArray[5];        
 
         if (dtMonth < 1 || dtMonth > 12) {
-                isValidDate = false;
+                isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
             }
         else if (dtDay < 1 || dtDay> 31) {
-                isValidDate = false;
+                isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
             }
         else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) {
-                isValidDate = false;
+                isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
             }
@@ -177,129 +171,119 @@ function validate () {
             var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
             if (dtDay> 29 || (dtDay ==29 && !isleap)) 
                     {
-                        isValidDate = false;
+                        isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
                     }
         } else {
             getElement('#tbNgay').style.display = 'none';
-            isValidDate = true;
         }
     }
 
     // check lương cơ bản
     let salaryBaseNotEmpty = checkInputNotEmpty('#luongCB');
     if(!salaryBaseNotEmpty) {
-        isValidSalary = false;
+        isValid = false;
         getElement('#tbLuongCB').style.display = 'block';
         getElement('#tbLuongCB').innerHTML = arrNotif[12];
     } else {
         let valueSalaryBase = getElement('#luongCB').value;
         if(valueSalaryBase<1000000 || valueSalaryBase>20000000) {
-            isValidSalary = false;
+            isValid = false;
             getElement('#tbLuongCB').style.display = 'block';
             getElement('#tbLuongCB').innerHTML = arrNotif[13];
         } else {
             getElement('#tbLuongCB').style.display = 'none';
-            isValidSalary = true;
         }
     }
 
     // check chức vụ phải là Giám đốc, trưởng phòng, nhân viên
     let chucvuNotEmpty = checkInputNotEmpty('#chucvu');
     if(!chucvuNotEmpty) {
-        isValidChucVu = false;
+        isValid = false;
         getElement('#tbChucVu').style.display = 'block';
         getElement('#tbChucVu').innerHTML = arrNotif[14];
     } else {
         getElement('#tbChucVu').style.display = 'none';
-        isValidChucVu = true;
     }
 
     // check số giờ làm phải từ 80-200 giờ
     let gioLamNotEmpty = checkInputNotEmpty('#gioLam');
     if(!gioLamNotEmpty) {
-        isValidTime = false;
+        isValid = false;
         getElement('#tbGiolam').style.display = 'block';
         getElement('#tbGiolam').innerHTML = arrNotif[15];
     } else {
         let valueGiolam = getElement('#gioLam').value;
         if(valueGiolam<80 || valueGiolam>200) {
-            isValidTime = false;
+            isValid = false;
             getElement('#tbGiolam').style.display = 'block';
             getElement('#tbGiolam').innerHTML = arrNotif[16];
         } else {
             getElement('#tbGiolam').style.display = 'none';
-            isValidTime = true;
         }
     }
-    if(isValidTKNV && isValidName && isValidEmail && isValidPass && isValidDate && isValidSalary && isValidChucVu && isValidTime) isValid = true;
     
-    console.log('isValid: '+isValid);
+    // console.log('isValid: '+isValid);
     
     return isValid;
 }
 
 // ================= validate Update ======================
-
 function validateUpdate () {
-    let isValid = false;
-
+    let isValid = true;
     // check tên NV phải là chữ và ko để trống
     let nameNotEmpty = checkInputNotEmpty('#name');
     if(!nameNotEmpty) {
-        isValidName = false;
+        isValid = false;
         getElement('#tbTen').style.display = 'block';
         getElement('#tbTen').innerHTML = arrNotif[3];
     } else {
         let arrcharater = /^[A-Za-z ._ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/;
         let valueName = getElement('#name').value;
         if(!valueName.match(arrcharater)) {
-            isValidName = false;
+            isValid = false;
             getElement('#tbTen').style.display = 'block';
             getElement('#tbTen').innerHTML = arrNotif[4];
         } else {
             getElement('#tbTen').style.display = 'none';
-            isValidName = true;
         }
     }
 
     // check email NV
     let emailNotEmpty = checkInputNotEmpty('#email');
     if(!emailNotEmpty) {
-        isValidEmail = false;
+        isValid = false;
         getElement('#tbEmail').style.display = 'block';
         getElement('#tbEmail').innerHTML = arrNotif[5];
     } else {
         let arrcharater = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         let valueEmail = getElement('#email').value;
         if(!valueEmail.match(arrcharater)) {
-            isValidEmail = false;
+            isValid = false;
             getElement('#tbEmail').style.display = 'block';
             getElement('#tbEmail').innerHTML = arrNotif[6];
         } else {
             getElement('#tbEmail').style.display = 'none';
-            isValidEmail = true;
         }
     }
 
     // check password 6-10 ký tự (1 số, 1 in hoa, 1 đặc biệt), ko để trống
     let passNotEmpty = checkInputNotEmpty('#password');
     if(!passNotEmpty) {
-        isValidPass = false;
+        isValid = false;
         getElement('#tbMatKhau').style.display = 'block';
         getElement('#tbMatKhau').innerHTML = arrNotif[7];
     } else {
         let valuePass = getElement('#password').value;
         if(valuePass.match(valuePass.length<6 || valuePass.length>10)) {
-            isValidPass = false;
+            isValid = false;
             getElement('#tbMatKhau').style.display = 'block';
             getElement('#tbMatKhau').innerHTML = arrNotif[8];
         }else if(/\d/.test(valuePass) && /[A-Z]/.test(valuePass) && /[^0-9a-zA-Z]/.test(valuePass)) {
             getElement('#tbMatKhau').style.display = 'none';
-            isValidPass = true;
         } else {
-            isValidPass = false;
+            isValid = false;
             getElement('#tbMatKhau').style.display = 'block';
             getElement('#tbMatKhau').innerHTML = arrNotif[9];
         }
@@ -308,7 +292,7 @@ function validateUpdate () {
     // check ngày làm ko để trống và định dạng mm/dd/yyyy
     let datepickerNotEmpty = checkInputNotEmpty('#datepicker');
     if(!datepickerNotEmpty) {
-        isValidDate = false;
+        isValid = false;
         getElement('#tbNgay').style.display = 'block';
         getElement('#tbNgay').innerHTML = arrNotif[10];
     } else {
@@ -317,7 +301,7 @@ function validateUpdate () {
         let dtArray = valuedate.match(rxDatePattern); // is format OK?
 
         if (dtArray == null) {
-            isValidDate = false;
+            isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
         }
@@ -328,17 +312,17 @@ function validateUpdate () {
         dtYear = dtArray[5];        
 
         if (dtMonth < 1 || dtMonth > 12) {
-                isValidDate = false;
+                isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
             }
         else if (dtDay < 1 || dtDay> 31) {
-                isValidDate = false;
+                isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
             }
         else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) {
-                isValidDate = false;
+                isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
             }
@@ -346,65 +330,60 @@ function validateUpdate () {
             var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
             if (dtDay> 29 || (dtDay ==29 && !isleap)) 
                     {
-                        isValidDate = false;
+                        isValid = false;
             getElement('#tbNgay').style.display = 'block';
             getElement('#tbNgay').innerHTML = arrNotif[11];
                     }
         } else {
             getElement('#tbNgay').style.display = 'none';
-            isValidDate = true;
         }
     }
 
     // check lương cơ bản
     let salaryBaseNotEmpty = checkInputNotEmpty('#luongCB');
     if(!salaryBaseNotEmpty) {
-        isValidSalary = false;
+        isValid = false;
         getElement('#tbLuongCB').style.display = 'block';
         getElement('#tbLuongCB').innerHTML = arrNotif[12];
     } else {
         let valueSalaryBase = getElement('#luongCB').value;
         if(valueSalaryBase<1000000 || valueSalaryBase>20000000) {
-            isValidSalary = false;
+            isValid = false;
             getElement('#tbLuongCB').style.display = 'block';
             getElement('#tbLuongCB').innerHTML = arrNotif[13];
         } else {
             getElement('#tbLuongCB').style.display = 'none';
-            isValidSalary = true;
         }
     }
 
     // check chức vụ phải là Giám đốc, trưởng phòng, nhân viên
     let chucvuNotEmpty = checkInputNotEmpty('#chucvu');
     if(!chucvuNotEmpty) {
-        isValidChucVu = false;
+        isValid = false;
         getElement('#tbChucVu').style.display = 'block';
         getElement('#tbChucVu').innerHTML = arrNotif[14];
     } else {
         getElement('#tbChucVu').style.display = 'none';
-        isValidChucVu = true;
     }
 
     // check số giờ làm phải từ 80-200 giờ
     let gioLamNotEmpty = checkInputNotEmpty('#gioLam');
     if(!gioLamNotEmpty) {
-        isValidTime = false;
+        isValid = false;
         getElement('#tbGiolam').style.display = 'block';
         getElement('#tbGiolam').innerHTML = arrNotif[15];
     } else {
         let valueGiolam = getElement('#gioLam').value;
         if(valueGiolam<80 || valueGiolam>200) {
-            isValidTime = false;
+            isValid = false;
             getElement('#tbGiolam').style.display = 'block';
             getElement('#tbGiolam').innerHTML = arrNotif[16];
         } else {
             getElement('#tbGiolam').style.display = 'none';
-            isValidTime = true;
         }
     }
-    if(isValidName && isValidEmail && isValidPass && isValidDate && isValidSalary && isValidChucVu && isValidTime) isValid = true;
     
-    console.log('isValid: '+isValid);
+    // console.log('isValid: '+isValid);
     
     return isValid;
 }
